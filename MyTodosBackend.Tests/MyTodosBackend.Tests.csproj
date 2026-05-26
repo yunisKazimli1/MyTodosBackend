@@ -6,4 +6,24 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.27" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.27" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.27" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.v3" Version="3.2.2" />
+    <PackageReference Include="xunit.v3.assert" Version="3.2.2" />
+    <PackageReference Include="xunit.v3.extensibility.core" Version="3.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyTodosBackend.Application\MyTodosBackend.Application.csproj" />
+    <ProjectReference Include="..\MyTodosBackend.Infrastructure\MyTodosBackend.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
