@@ -130,16 +130,16 @@ This project follows **Clean Architecture** principles with strict separation of
 └─────────────────┬───────────────────────────────────────┘
                   │ depends on ↓
 ┌─────────────────────────────────────────────────────────┐
+│  Infrastructure Layer (Data Access)                      │
+│  - AppDbContext (EF Core)                               │
+│  - Database configuration                               │
+└─────────────────┬───────────────────────────────────────┘
+                  │ depends on ↓
+┌─────────────────────────────────────────────────────────┐
 │  Domain Layer (Business Rules)                           │
 │  - Todo entity                                          │
 │  - Enums (TodoFilterEnum, TodoSortingEnum)              │
 │  - No external dependencies                             │
-└─────────────────┬───────────────────────────────────────┘
-                  │ depends on ↓
-┌─────────────────────────────────────────────────────────┐
-│  Infrastructure Layer (Data Access)                      │
-│  - AppDbContext (EF Core)                               │
-│  - Database configuration                               │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -721,41 +721,6 @@ dotnet ef database update PreviousMigrationName --project MyTodosBackend.Infrast
 
 ---
 
-## 🐛 Known Limitations & Future Improvements
-
-### Current Limitations
-
-1. No user authentication (all operations are public)
-2. No audit trail (who modified what)
-3. Basic error handling (could add custom error codes)
-4. No API versioning (all endpoints are v1 implied)
-5. No logging to file (console only)
-
-### Planned Improvements
-
-- [ ] Add JWT authentication
-- [ ] Implement audit logging
-- [ ] Add OpenAPI/Swagger security definitions
-- [ ] Add rate limiting middleware
-- [ ] Add request/response logging
-- [ ] Add distributed caching (Redis)
-- [ ] Add health check endpoints
-- [ ] Add API documentation (XML comments export)
-- [ ] Performance optimization (indexing strategies)
-- [ ] Add soft delete for todos (data retention)
-
----
-
-## 📚 Additional Resources
-
-- [Microsoft - Clean Architecture in ASP.NET Core](https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/common-web-application-architectures)
-- [Uncle Bob - Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
-- [Entity Framework Core Documentation](https://learn.microsoft.com/en-us/ef/core/)
-- [FluentValidation Documentation](https://docs.fluentvalidation.net/)
-- [REST API Best Practices](https://restfulapi.net/)
-
----
-
 ## 📞 Support & Contact
 
 - **Author**: Yunis Kazimli
@@ -768,27 +733,3 @@ dotnet ef database update PreviousMigrationName --project MyTodosBackend.Infrast
 ## 📄 License
 
 This project is open source and available under the MIT License.
-
----
-
-## ✅ Checklist for Production Deployment
-
-- [ ] Update CORS allowed origins to production frontend URL
-- [ ] Change database from SQLite to SQL Server/PostgreSQL
-- [ ] Enable HTTPS enforcement
-- [ ] Add authentication/authorization
-- [ ] Implement logging to persistent storage
-- [ ] Add health check endpoints
-- [ ] Setup database backups
-- [ ] Configure application insights/monitoring
-- [ ] Enable request rate limiting
-- [ ] Add API documentation (Swagger)
-- [ ] Setup CI/CD pipeline
-- [ ] Load test the API
-- [ ] Security audit
-- [ ] Update connection strings from secrets manager
-
----
-
-**Last Updated**: May 2026  
-**Status**: ✅ Production Ready (with noted security additions)
