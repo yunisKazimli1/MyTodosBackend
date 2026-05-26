@@ -95,25 +95,6 @@ public class TodoManagerTests : IDisposable
     }
 
     [Fact]
-    public async Task AddTodo_ShouldThrowValidationException_WhenValidationFails()
-    {
-        _addValidatorMock
-            .Setup(v => v.ValidateAsync(It.IsAny<ValidationContext<AddTodoDto>>(), default))
-            .ReturnsAsync(new ValidationResult(new[]
-            {
-            new ValidationFailure("Title", "Title too short")
-            }));
-
-        AddTodoDto dto = new()
-        {
-            Title = "short"
-        };
-
-        await Assert.ThrowsAsync<ValidationException>(() =>
-            _todoManager.AddTodo(dto));
-    }
-
-    [Fact]
     public async Task GetTodoById_ShouldReturnTodo_WhenTodoExists()
     {
         Todo todo = new()

@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MyTodosBackend.Api\MyTodosBackend.Api.csproj" />
     <ProjectReference Include="..\MyTodosBackend.Application\MyTodosBackend.Application.csproj" />
     <ProjectReference Include="..\MyTodosBackend.Infrastructure\MyTodosBackend.Infrastructure.csproj" />
   </ItemGroup>

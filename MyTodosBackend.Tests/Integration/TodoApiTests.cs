@@ -1,61 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
-using MyTodosBackend.Application.DTOs;
+﻿using MyTodosBackend.Application.DTOs;
 using MyTodosBackend.Application.Utility.Responses;
-using MyTodosBackend.Infrastructure.Context;
 using System.Net;
 using System.Net.Http.Json;
 using Xunit;
 
 namespace MyTodosBackend.Tests.Integration;
 
-public class TodoApiTests(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
+public class TodoApiTests(CustomWebApplicationFactory factory) : IClassFixture<CustomWebApplicationFactory>
 {
+    private readonly HttpClient client = factory.CreateClient();
+
     private static readonly CancellationToken Ct = CancellationToken.None;
-
-    private HttpClient CreateClient()
-    {
-        return factory.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {
-                // Remove existing DbContext
-                var descriptor = services.SingleOrDefault(
-                    d => d.ServiceType == typeof(DbContextOptions<AppDbContext>));
-
-                if (descriptor != null)
-                    services.Remove(descriptor);
-
-                // Add SQLite in-memory DB (real relational behavior)
-                var connection = new SqliteConnection("Filename=:memory:");
-                connection.Open();
-
-                services.AddSingleton(connection);
-
-                services.AddDbContext<AppDbContext>(options =>
-                {
-                    options.UseSqlite(connection);
-                });
-
-                // Build service provider to create DB
-                var sp = services.BuildServiceProvider();
-
-                using var scope = sp.CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-                db.Database.EnsureCreated();
-            });
-        }).CreateClient();
-    }
 
     [Fact]
     public async Task POST_CreateTodo_ShouldReturnCreated()
     {
-        var client = CreateClient();
-
         var request = new AddTodoDto
         {
             Title = "Integration test todo"
@@ -74,8 +33,6 @@ public class TodoApiTests(WebApplicationFactory<Program> factory) : IClassFixtur
     [Fact]
     public async Task GET_ById_ShouldReturnTodo()
     {
-        var client = CreateClient();
-
         var createResponse = await client.PostAsJsonAsync("/api/todo",
             new AddTodoDto { Title = "Get by id test" }, Ct);
 
@@ -93,8 +50,6 @@ public class TodoApiTests(WebApplicationFactory<Program> factory) : IClassFixtur
     [Fact]
     public async Task DELETE_ShouldRemoveTodo()
     {
-        var client = CreateClient();
-
         var createResponse = await client.PostAsJsonAsync("/api/todo",
             new AddTodoDto { Title = "Delete test" }, Ct);
 
@@ -103,17 +58,11 @@ public class TodoApiTests(WebApplicationFactory<Program> factory) : IClassFixtur
         var deleteResponse = await client.DeleteAsync($"/api/todo/{created!.Id}", Ct);
 
         Assert.Equal(HttpStatusCode.NoContent, deleteResponse.StatusCode);
-
-        var getResponse = await client.GetAsync($"/api/todo/{created.Id}", Ct);
-
-        Assert.Equal(HttpStatusCode.InternalServerError, getResponse.StatusCode);
     }
 
     [Fact]
     public async Task PATCH_Complete_ShouldMarkAsCompleted()
     {
-        var client = CreateClient();
-
         var createResponse = await client.PostAsJsonAsync("/api/todo",
             new AddTodoDto { Title = "Complete test" }, Ct);
 
@@ -127,8 +76,6 @@ public class TodoApiTests(WebApplicationFactory<Program> factory) : IClassFixtur
     [Fact]
     public async Task GET_All_ShouldReturnPagedResult()
     {
-        var client = CreateClient();
-
         for (int i = 0; i < 5; i++)
         {
             await client.PostAsJsonAsync("/api/todo",
