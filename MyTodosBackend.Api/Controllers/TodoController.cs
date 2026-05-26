@@ -57,7 +57,7 @@ namespace MyTodosBackend.Api.Controllers
         }
 
         [HttpPatch("{id}/updateDate")]
-        public async Task<IActionResult> UpdateTodoDate(Guid id, [FromQuery]UpdateTodoDateDto updateTodoDateDto)
+        public async Task<IActionResult> UpdateTodoDate(Guid id, [FromBody]UpdateTodoDateDto updateTodoDateDto)
         {
             await _todoManager.UpdateTodoDate(id, updateTodoDateDto);
 
