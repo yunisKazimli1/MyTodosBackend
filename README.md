@@ -1,6 +1,6 @@
 # MyTodosBackend - Clean Architecture Todo API
 
-A production-ready **ASP.NET Core 8** backend API for a Todo application built with **Clean Architecture** principles. This is the backend companion to the [my-todo-app](https://github.com/yunisKazimli1/my-todo-app) React + TypeScript frontend.
+A production-ready **ASP.NET Core 8** backend API for a Todo application built with **Clean Architecture** principles. This is the backend companion to the [my-todo-app](https://github.com/yunisKazimli1/my-todo-app).
 
 ---
 
@@ -15,13 +15,12 @@ A production-ready **ASP.NET Core 8** backend API for a Todo application built w
 - [API Endpoints](#api-endpoints)
 - [Database](#database)
 - [Design Decisions](#design-decisions)
-- [Development](#development)
 
 ---
 
 ## 🎯 Overview
 
-This project implements a **Todo Management API** that handles task creation, updates, deletion, filtering, and sorting. The application enforces business rules like minimum title length and due date validation while maintaining a clean, scalable architecture suitable for production environments.
+This project implements a **Todo Management API** that handles task creation, updates, deletion, filtering, and sorting. The application enforces business rules like minimum title length and due dates.
 
 **Key Statistics:**
 - Clean Architecture with 4 separate projects (Domain, Application, Infrastructure, API)
@@ -404,11 +403,6 @@ Todo (aggregate root)
 - ✅ Easy migration to production databases (SQL Server, PostgreSQL)
 - ✅ No server setup required
 
-For production, consider upgrading to:
-- **SQL Server** - Enterprise-grade, full ACID compliance
-- **PostgreSQL** - Open-source, high performance
-- **Azure SQL Database** - Managed cloud database
-
 ---
 
 ## 🎨 Design Decisions
@@ -435,8 +429,6 @@ For production, consider upgrading to:
    - Team standardization requirement
    - Large enterprise project
 ```
-
-**Production Consideration**: If this application scales and requires 10+ DTOs, migrate to AutoMapper with minimal refactoring.
 
 ---
 
@@ -518,8 +510,6 @@ CQRS + MediatR (Not Chosen):
 | Dependencies | 4 | 8+ |
 | Best For | Small-Medium Projects | Large Enterprise Systems |
 | Scalability | Good | Excellent |
-
-**Upgrade Path**: If requirements evolve (event sourcing, microservices, complex workflows), can gradually introduce CQRS while keeping Clean Architecture foundation.
 
 ---
 
@@ -603,130 +593,11 @@ Alternatives Considered:
 
 ---
 
-## 👨‍💻 Development
-
-### Running Tests
-
-```bash
-# Run all tests
-dotnet test
-
-# Run with coverage
-dotnet test /p:CollectCoverage=true
-
-# Run specific test class
-dotnet test --filter "ClassName=TodoManagerTests"
-```
-
-### Adding New Features
-
-1. **Add Domain Entity** → `MyTodosBackend.Domain/Entities/`
-2. **Add DTOs** → `MyTodosBackend.Application/DTOs/`
-3. **Add Validator** → `MyTodosBackend.Application/Validators/`
-4. **Add Mapper** → `MyTodosBackend.Application/CustomMapper/`
-5. **Add Service Interface** → `MyTodosBackend.Application/Interfaces/`
-6. **Add Service Implementation** → `MyTodosBackend.Application/Implementations/`
-7. **Add Controller Endpoint** → `MyTodosBackend.Api/Controllers/`
-8. **Update DbContext** → `MyTodosBackend.Infrastructure/Context/AppDbContext.cs`
-9. **Create Migration** → `dotnet ef migrations add FeatureName`
-10. **Write Tests** → `MyTodosBackend.Tests/`
-
-### Code Style Guidelines
-
-- **Naming**: PascalCase for classes/methods, camelCase for variables
-- **Async**: Always use `async/await` for I/O operations
-- **Validation**: Always validate input in validators, not in services
-- **Exceptions**: Throw custom exceptions, catch in middleware
-- **Comments**: Add XML documentation for public members
-
-```csharp
-/// <summary>
-/// Retrieves todos with advanced filtering, sorting, and pagination.
-/// </summary>
-/// <param name="query">The query parameters for filtering/sorting</param>
-/// <returns>Paged result containing matching todos</returns>
-public async Task<PagedResult<GetTodoDto>> GetTodos(GetTodosQuery query)
-{
-    // Implementation
-}
-```
-
-### Debugging
-
-**Visual Studio Debugging:**
-```
-1. Set breakpoint in code
-2. Press F5 to start debugging
-3. Click on variable to inspect value
-4. Use Debug Console for expressions
-```
-
-**Command Line Debugging:**
-```bash
-# Build in Debug configuration
-dotnet build --configuration Debug
-
-# Run with debugging symbols
-dotnet run --configuration Debug
-```
-
-### Database Migrations
-
-```bash
-# Create new migration
-dotnet ef migrations add YourMigrationName --project MyTodosBackend.Infrastructure --startup-project MyTodosBackend.Api
-
-# Apply pending migrations
-dotnet ef database update --project MyTodosBackend.Infrastructure --startup-project MyTodosBackend.Api
-
-# Revert to previous migration
-dotnet ef database update PreviousMigrationName --project MyTodosBackend.Infrastructure --startup-project MyTodosBackend.Api
-```
-
----
-
-## 📊 Code Metrics
-
-| Metric | Value |
-|--------|-------|
-| **Total Lines of Code** | ~1,300 |
-| **Number of Projects** | 4 |
-| **API Endpoints** | 6 |
-| **DTOs** | 3 |
-| **Validators** | 3 |
-| **Custom Exceptions** | 2 |
-| **Test Cases** | TBD |
-
----
-
-## 🔐 Security Considerations
-
-### ✅ Implemented
-
-- Input validation with minimum length requirements
-- SQL injection prevention (EF Core parameterized queries)
-- CORS properly configured (specific origins only)
-- Exception details hidden in production
-- No sensitive data in error messages
-
-### 🔄 Recommended Additions
-
-- **Authentication** - Add JWT or OAuth2 for user identification
-- **Authorization** - Implement role-based access (admin, user)
-- **Audit Logging** - Log who did what and when
-- **Rate Limiting** - Prevent API abuse
-- **HTTPS Only** - Force HTTPS in production
-- **HSTS Headers** - Prevent downgrade attacks
-- **Input Sanitization** - Sanitize strings to prevent XSS
-
----
-
 ## 📞 Support & Contact
 
 - **Author**: Yunis Kazimli
 - **GitHub**: [@yunisKazimli1](https://github.com/yunisKazimli1)
 - **Frontend Repo**: [my-todo-app](https://github.com/yunisKazimli1/my-todo-app)
-- **Report Issues**: Create an issue on GitHub
 
 ---
 
