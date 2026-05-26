@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyTodosBackend.Domain\MyTodosBackend.Domain.csproj" />
+    <ProjectReference Include="..\MyTodosBackend.Infrastructure\MyTodosBackend.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
